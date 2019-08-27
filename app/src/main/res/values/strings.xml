@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">JsonImport</string>
+    <string name="network_key">Network_Key-</string>
+    <string name="unicast_mesh_address">Unicast_Mesh_Address-</string>
+    <string name="device_key">Device_Key-</string>
+    <string name="app_key">App_Key-</string>
+    <string name="gga">Gateway_Group_Address-</string>
+    <string name="acuga">Access_Control_Unit_Group_Address-</string>
+    <string name="hsga">Health_Server_Group_Address-</string>
+    <string name="encryption_key">Encryption_Key-</string>
+    <string name="organisation_id">Organisation_ID-</string>
+    <string name="barrier_id">Barrier_ID-</string>
+    <string name="barrier_dir">Barrier_Dir-</string>
+    <string name="choose">Choose File</string>
+    <string name="process">Process File</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
