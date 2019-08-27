@@ -84,9 +84,12 @@ public class Configuration extends AppCompatActivity {
                         Configuration.myRoomDatabase.myDao().addConfigData(savingData);
                         Toast.makeText(Configuration.this,"Data Added Successfully",Toast.LENGTH_SHORT).show();
                         nullifyView();
+                        jsonString=null;
+                        filechosen.setText("");
                     }catch (Exception ex){
                         System.out.println("ex = " + ex);
                         Toast.makeText(Configuration.this, "There was a Problem adding your Data to the Database", Toast.LENGTH_SHORT).show();
+                        jsonString=null;
                     }
                 }
             }
@@ -201,10 +204,7 @@ public class Configuration extends AppCompatActivity {
             Toast.makeText(Configuration.this,"Sorry Dude !!!! Wrong Json File",Toast.LENGTH_SHORT).show();
 
         }
-
-
     }
-
 
 
     public void chooseFile(View view) {
@@ -220,8 +220,5 @@ public class Configuration extends AppCompatActivity {
 
     }
 
-
-
-
-
 }
+
