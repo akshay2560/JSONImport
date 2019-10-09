@@ -8,8 +8,11 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 
 public class FilePath {
+
+    private static String route;
     /**
      * Method for return file path of Gallery image/ Document / Video / Audio
      *
@@ -40,11 +43,14 @@ public class FilePath {
             else if (isDownloadsDocument(uri)) {
 
                 final String id = DocumentsContract.getDocumentId(uri);
+
                 final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"),
+                        Uri.parse("content://downloads/my_downloads"),
                         Long.valueOf(id));
 
-                return getDataColumn(context, contentUri, null, null);
+                route=getDataColumn(context, contentUri, null, null);
+               return route;
+
             }
             // MediaProvider
             else if (isMediaDocument(uri)) {
@@ -113,7 +119,7 @@ public class FilePath {
                 final int index = cursor.getColumnIndexOrThrow(column);
                 return cursor.getString(index);
             }
-        } finally {
+       } finally {
             if (cursor != null)
                 cursor.close();
         }
@@ -136,6 +142,7 @@ public class FilePath {
      * @return Whether the Uri authority is DownloadsProvider.
      */
     public static boolean isDownloadsDocument(Uri uri) {
+        String authority = uri.getAuthority();
         return "com.android.providers.downloads.documents".equals(uri
                 .getAuthority());
     }
@@ -158,5 +165,9 @@ public class FilePath {
     public static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri
                 .getAuthority());
+    }
+
+    public static boolean isKitkatOrAbove() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     }
 }

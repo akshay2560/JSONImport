@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.IdentifyDevice">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/identifyTextBold"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:letterSpacing="0.1"
+                android:text="IDENTIFY "
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorText" />
+
+            <TextView
+                android:id="@+id/identifyTextNormal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorGrey" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/observeDeviceMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Observe which light is blinking"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@color/colorGrey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/deviceType"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_bulb" />
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="-20dp"
+            android:backgroundTint="@color/colorPrimaryDark"
+            app:cardCornerRadius="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/setupDevice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="Do you wish to setup this device?"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="@color/colorWhite" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/cancelButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/border_white"
+                        android:clickable="true"
+                        android:elevation="4dp"
+                        android:focusable="true"
+                        android:foreground="@drawable/button_ripple_effect"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/cancelText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="30dp"
+                            android:layout_marginBottom="20dp"
+                            android:letterSpacing="0.2"
+                            android:text="@string/cancel"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/setupButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/button_rounded_white"
+                        android:clickable="true"
+                        android:elevation="4dp"
+                        android:focusable="true"
+                        android:foreground="@drawable/button_ripple_effect"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/setupText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="30dp"
+                            android:layout_marginBottom="20dp"
+                            android:letterSpacing="0.2"
+                            android:text="@string/setup"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/startButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/button_rounded_white"
+                        android:clickable="true"
+                        android:elevation="4dp"
+                        android:focusable="true"
+                        android:foreground="@drawable/button_ripple_effect"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/startText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="20dp"
+                            android:letterSpacing="0.2"
+                            android:text="@string/start"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:tint="@color/colorAccent"
+                            android:layout_width="18dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="30dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ic_chevron_right" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

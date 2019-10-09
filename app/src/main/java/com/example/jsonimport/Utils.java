@@ -11,15 +11,10 @@ import android.os.Build;
 import android.os.ParcelUuid;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
-import java.util.Comparator;
-import java.util.UUID;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 public class Utils {
 

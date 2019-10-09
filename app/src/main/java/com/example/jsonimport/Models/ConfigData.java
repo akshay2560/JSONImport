@@ -1,9 +1,9 @@
 package com.example.jsonimport.Models;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -32,15 +32,17 @@ public class ConfigData implements Serializable {
     private String encryptionKey;
     @SerializedName("organisation_id")
     private String organisationId;
-    @PrimaryKey
-    @NonNull
     @SerializedName("barrier_id")
     private String barrierId ;
     @SerializedName("barrier_dir")
     private String barrierDir;
+    @PrimaryKey
+    @NonNull
+    @SerializedName("mac_id")
+    private String macId;
 
 
-    public ConfigData(String access_control_unit_name,String networkKey,String unicastMeshAddress,String appKey,String gga,String acuga,String hsga,String encryptionKey,String organisationId,String barrierId,String barrierDir){
+    public ConfigData(String access_control_unit_name,String networkKey,String unicastMeshAddress,String appKey,String gga,String acuga,String hsga,String encryptionKey,String organisationId,String barrierId,String barrierDir,String macId){
         this.access_control_unit_name=access_control_unit_name;
         this.networkKey=networkKey;
         this.unicastMeshAddress=unicastMeshAddress;
@@ -52,6 +54,7 @@ public class ConfigData implements Serializable {
         this.organisationId=organisationId;
         this.barrierId=barrierId;
         this.barrierDir=barrierDir;
+        this.macId = macId;
     }
 
     //Getter methods
@@ -103,6 +106,7 @@ public class ConfigData implements Serializable {
         return barrierDir;
     }
 
+    public String getMacId(){return macId;}
 
     //Setter methods
     public void setAccess_control_unit_name(String access_control_unit_name) {
@@ -152,5 +156,7 @@ public class ConfigData implements Serializable {
     public void setBarrierDir(String barrierDir) {
         this.barrierDir = barrierDir;
     }
+
+    public void setMacId(String macId){this.macId = macId;}
 
 }

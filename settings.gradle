@@ -1,2 +1,3 @@
 include ':app'
+include ':meshprovisioner'
 rootProject.name='JsonImport'
