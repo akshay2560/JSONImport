@@ -93,6 +93,12 @@ public class ProvisioningActivity extends AppCompatActivity implements IdentifyD
                 unprovisionedNode = unprovisionedMeshNode;
             }
         });
+
+        controlApi.provisionedMeshNodeMutableLiveData.observe(this,provisionedMeshNode -> {
+            if(provisionedMeshNode!=null){
+                setResultIntent();
+            }
+        });
     }
 
     @Override
