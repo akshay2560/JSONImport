@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +63,7 @@ public class Scanner extends AppCompatActivity implements ScannedDevicesViewHold
             finish();
             return;
         }else {
-            macId = getIntent().getStringExtra("macId");
+            macId = getIntent().getStringExtra("macID");
         }
 
         controlApi.bluetoothDeviceMutableLiveData.observe(this, extendedBluetoothDevice -> {
@@ -115,14 +116,14 @@ public class Scanner extends AppCompatActivity implements ScannedDevicesViewHold
     public void onIdentifyClicked(ExtendedBluetoothDevice device) {
         if (myRoomDatabase.myDao().getUnicastAddress(macId) == null) {
             Toast.makeText(getApplicationContext(), "Please save the file", Toast.LENGTH_SHORT).show();
-            return;
+        }else {
+            meshManagerApi.getMeshNetwork().setUnicastAddress(Integer.parseInt(myRoomDatabase.myDao().getUnicastAddress(macId), 16));
+            controlApi.nullifyProvisionedNode();
+            Intent provisioningActivity = new Intent(this, ProvisioningActivity.class);
+            provisioningActivity.putExtra("EXTRA_DEVICE", device);
+            provisioningActivity.putExtra("macID", this.macId);
+            startActivityForResult(provisioningActivity, ControlApi.PROVISIONING_SUCCESS);
         }
-        meshManagerApi.getMeshNetwork().setUnicastAddress(Integer.parseInt(myRoomDatabase.myDao().getUnicastAddress(macId),16));
-        controlApi.nullifyProvisionedNode();
-        Intent provisioningActivity = new Intent(this, ProvisioningActivity.class);
-        provisioningActivity.putExtra("EXTRA_DEVICE", device);
-        provisioningActivity.putExtra("macID", this.macId);
-        startActivityForResult(provisioningActivity, ControlApi.PROVISIONING_SUCCESS);
     }
 
     private boolean listContains(ExtendedBluetoothDevice device) {
@@ -139,6 +140,7 @@ public class Scanner extends AppCompatActivity implements ScannedDevicesViewHold
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ControlApi.PROVISIONING_SUCCESS) {
             if (resultCode == RESULT_OK)
+                Toast.makeText(getApplicationContext(),"Device Provisioned and Configured Successfully",Toast.LENGTH_SHORT).show();
                 finish();
             if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(getApplicationContext(), "Provisioning Incomplete\nPlease Retry", Toast.LENGTH_LONG).show();

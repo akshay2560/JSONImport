@@ -830,7 +830,7 @@ public class MeshManagerApi implements MeshMngrApi {
 
     public MeshNetwork generateMeshNetwork() {
         Log.e("MeshNetwork","I'm here");
-        final String meshUuid = UUID.randomUUID().toString().toUpperCase(Locale.US);;
+        final String meshUuid = "8DCDCE34-D3D8-4D30-A70E-6E32B968FDFF";
 
         final MeshNetwork network = new MeshNetwork(meshUuid);
         network.netKeys = generateNetKeys(meshUuid);

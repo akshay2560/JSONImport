@@ -444,14 +444,12 @@ public class ControlApi implements MeshStatusCallbacks, MeshManagerCallbacks, Bl
         }else if(meshMessage instanceof VendorModelMessageStatus){
             Log.e("On Mesh", "VendorModelMessage Status");
             Log.e("Data Received", MeshParserUtils.bytesToHex(((VendorModelMessageStatus) meshMessage).getAccessPayload(), false));
-            if (((VendorModelMessageStatus) meshMessage).getAccessPayload()[3] == 70) {
-                sendBarrierIdAndBarrierDirection();
+            if (((VendorModelMessageStatus) meshMessage).getAccessPayload()[3] == 0x70) {
                 Log.e("Vendor Model", "70");
-            }else if(((VendorModelMessageStatus) meshMessage).getAccessPayload()[3] == 71){
+                sendBarrierIdAndBarrierDirection();
+            }else if(((VendorModelMessageStatus) meshMessage).getAccessPayload()[3] == 0x71){
                 Log.e("Vendor Model", "71");
                 sendDF();
-            }else if(((VendorModelMessageStatus) meshMessage).getAccessPayload()[3]==0xDF){
-                Log.e("Vendor Model", "DF");
                 provisionedMeshNodeMutableLiveData.postValue(provisionedMeshNode);
                 Intent intent = new Intent();
                 intent.setAction("DeviceKey");

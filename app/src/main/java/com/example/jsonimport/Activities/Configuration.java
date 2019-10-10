@@ -5,14 +5,19 @@ import androidx.annotation.Nullable;
 import android.Manifest;
 import android.arch.persistence.room.Room;
 import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -56,6 +61,7 @@ public class Configuration extends AppCompatActivity {
     private static final int READ_FILE_REQUEST_CODE = 42;
     private static final int CHOOSE_FILE_REQUEST_CODE = 8778;
     private static final String TAG=Configuration.class.getSimpleName();
+    private static final String EXPORT_PATH = Environment.getExternalStorageDirectory() + File.separator + "DealerApp" + File.separator + "Mesh Network" + File.separator;
 
     public static MyRoomDatabase myRoomDatabase;
 
@@ -68,6 +74,14 @@ public class Configuration extends AppCompatActivity {
     MeshManagerApi meshManagerApi;
     String macID;
     ControlApi controlApi;
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("DeviceKey")) {
+                devicekey.setText(intent.getStringExtra("deviceKey"));
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +118,7 @@ public class Configuration extends AppCompatActivity {
             }else if(bdir.length() > 2 ) {
                 Toast.makeText(getApplicationContext(),"Enter 1 Byte of Barrier Direction",Toast.LENGTH_SHORT).show();
             }else{
-                byte[] barrID = hexToByteArray(bid.getText().toString());
+                byte[] barrID = hexToByteArray(bid.getText().toString().trim());
                 byte temp = barrID[1];
                 barrID[1] = barrID[0];
                 barrID[0] = temp;
@@ -112,9 +126,8 @@ public class Configuration extends AppCompatActivity {
                 macID = macId.getText().toString();
                 Log.e("BarrId", barrid);
                 Log.e("BarrDir", bdir.getText().toString());
-                Log.e("Barrier Id", MeshParserUtils.bytesToHex(barrID,false));
                 ConfigData savingData=new ConfigData(acun.getText().toString(),networkkey.getText().toString(),unicastmeshaddress.getText().toString(),appkey.getText().toString(),
-                        gga.getText().toString(),acuga.getText().toString(),hsga.getText().toString(),ek.getText().toString(),oid.getText().toString(),barrid,bdir.getText().toString(),macId.getText().toString());
+                        gga.getText().toString(),acuga.getText().toString(),hsga.getText().toString(),ek.getText().toString(),oid.getText().toString(),barrid,bdir.getText().toString(),macID);
                 try {
                     MeshNetwork meshNetwork = new MeshNetwork("8DCDCE34-D3D8-4D30-A70E-6E32B968FDFF");
                     meshNetwork.setUnicastAddress(Integer.parseInt(unicastmeshaddress.getText().toString(),16));
@@ -183,10 +196,20 @@ public class Configuration extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.selectDoor){
-            Intent intent = new Intent(this,Scanner.class);
-            intent.putExtra("macID", macID);
-            startActivity(intent);
+        switch (id){
+            case R.id.export:
+                File file = new File(EXPORT_PATH);
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+                meshManagerApi.exportMeshNetwork(EXPORT_PATH);
+                Toast.makeText(getApplicationContext(), "Network Exported", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.selectDoor:
+                Intent intent = new Intent(this,Scanner.class);
+                intent.putExtra("macID", macID);
+                startActivity(intent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -194,6 +217,9 @@ public class Configuration extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        IntentFilter intentFilter = new IntentFilter("DeviceKey");
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver,intentFilter);
+
         if (!ControlApi.isLocationPermissionsGranted(this)) {
             android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this)
                     .setTitle(getApplicationContext().getString(R.string.app_name))
@@ -221,6 +247,11 @@ public class Configuration extends AppCompatActivity {
                         startActivity(locationEnableIntent);
                     }).show();
             ((TextView) dialog.findViewById(android.R.id.message)).setTypeface(Config.typefaceMedium);
+        }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Config.PERMISSION_REQUEST);
+            }
         }
     }
 
@@ -352,8 +383,5 @@ public class Configuration extends AppCompatActivity {
         }
         return b;
     }
-
-
-
 }
 
